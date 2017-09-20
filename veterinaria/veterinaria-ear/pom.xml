@@ -6,29 +6,16 @@
     <groupId>com.produccion</groupId>
     <version>1.0</version>
   </parent>
-
-    <groupId>com.produccion</groupId>
+  
     <artifactId>veterinaria-ear</artifactId>
-    <version>1.0</version>
     <packaging>ear</packaging>
-
-    <name>veterinaria-ear</name>
-
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            <finalName>veterinaria</finalName>
     </properties>
   
     <build>
+        <finalName>${finalName}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
@@ -36,6 +23,15 @@
                 <configuration>
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <applicationXml>${project.build.directory}/application.xml</applicationXml>
+                    <modules>
+                        <webModule>
+                            <groupId>com.produccion</groupId>
+                            <artifactId>veterinaria-web</artifactId>
+                            <bundleFileName>veterinaria.war</bundleFileName>
+                            <contextRoot>/veterinaria</contextRoot>
+                        </webModule>
+                    </modules>
                 </configuration>
             </plugin>
         </plugins>
@@ -43,14 +39,9 @@
     <dependencies>
         <dependency>
             <groupId>com.produccion</groupId>
-            <artifactId>veterinaria-ejb</artifactId>
-            <version>1.0</version>
-            <type>ejb</type>
-        </dependency>
-        <dependency>
-            <groupId>com.produccion</groupId>
             <artifactId>veterinaria-web</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
             <type>war</type>
         </dependency>
     </dependencies>

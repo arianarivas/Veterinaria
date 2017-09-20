@@ -6,18 +6,9 @@
     <groupId>com.produccion</groupId>
     <version>1.0</version>
   </parent>
-
-    <groupId>com.produccion</groupId>
+  
     <artifactId>veterinaria-web</artifactId>
-    <version>1.0</version>
     <packaging>war</packaging>
-
-    <name>veterinaria-web</name>
-
-    <properties>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     
     <dependencies>
         <dependency>
@@ -25,6 +16,12 @@
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>6.1</version>
+                <scope>provided</scope>
         </dependency>
     </dependencies>
 

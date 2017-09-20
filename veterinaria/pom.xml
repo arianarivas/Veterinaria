@@ -9,6 +9,5 @@
   <modules>
     <module>veterinaria-ear</module>
     <module>veterinaria-web</module>
-    <module>veterinaria-ejb</module>
   </modules>
 </project>
