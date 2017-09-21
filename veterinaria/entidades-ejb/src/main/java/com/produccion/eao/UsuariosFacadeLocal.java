@@ -28,4 +28,5 @@ public interface UsuariosFacadeLocal {
 
     int count();
     
+    Usuarios autenticar(Usuarios usu);
 }
