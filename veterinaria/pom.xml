@@ -11,6 +11,7 @@
     </properties>
     
   <modules>
+    <module>entidades-ejb</module>
     <module>veterinaria-web</module>
     <module>veterinaria-ear</module>
   </modules>
