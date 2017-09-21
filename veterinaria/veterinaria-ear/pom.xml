@@ -24,6 +24,11 @@
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <applicationXml>${project.build.directory}/application.xml</applicationXml>
                     <modules>
+                        <ejbModule>
+                                <groupId>com.produccion</groupId>
+                                <artifactId>entidades-ejb</artifactId>
+                                <bundleFileName>entidades-ejb.jar</bundleFileName>
+                        </ejbModule>
                         <webModule>
                             <groupId>com.produccion</groupId>
                             <artifactId>veterinaria-web</artifactId>
@@ -42,6 +47,13 @@
             <version>1.0</version>
             <scope>provided</scope>
             <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.produccion</groupId>
+            <artifactId>entidades-ejb</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+            <type>ejb</type>
         </dependency>
     </dependencies>
 </project>
