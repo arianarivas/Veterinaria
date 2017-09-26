@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.produccion.entidades;
 
 import java.io.Serializable;
@@ -14,19 +19,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
- * 
- * Proyecto - Multicentro de Mascotas
- * @author mpluas - arivas
- * @version 1.0
- * 
+ *
+ * @author mpluas
  */
 @Entity
 @Table(name = "menu")
-public class Menu implements Serializable {
+public class Menu implements Serializable{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,10 +57,11 @@ public class Menu implements Serializable {
     @Size(max = 2)
     @Column(name = "tipo")
     private String tipo;
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "rol_idrol", referencedColumnName = "idrol")
     private Rol rol;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuPadre", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuPadre", fetch = FetchType.EAGER)
+    @OrderBy("orden ASC")
     private List<Menu> menuPadreeList;
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_padre", referencedColumnName = "idmenu")

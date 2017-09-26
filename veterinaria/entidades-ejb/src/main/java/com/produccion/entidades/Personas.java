@@ -3,6 +3,7 @@ package com.produccion.entidades;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -15,30 +16,31 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 /**
- * 
- * Proyecto - Multicentro de Mascotas
- * @author mpluas - arivas
- * @version 1.0
+ *
+ * @author mpluas
+ * Titulo: Veterinaria Multicentro de las mascotas
  * 
  */
+
 @Entity
 @Table(name = "personas")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "TIPO_PERSONA")
-public class Personas implements Serializable {
+public class Personas implements Serializable{
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personas")
+/*    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personas")
     private List<Usuarios> usuariosList;
 
     @Size(max = 3)
     @Column(name = "tipo_persona")
-    private String tipoPersona;
+    private String tipoPersona;*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,7 +68,8 @@ public class Personas implements Serializable {
     private Date fechaRegistro;
     @Column(name = "estado")
     private String estado;
-    @OneToOne(mappedBy = "personas", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Usuarios usuarios;
     
     public Personas() {
@@ -173,7 +176,7 @@ public class Personas implements Serializable {
         this.estado = estado;
     }
 
-    public String getTipoPersona() {
+    /*public String getTipoPersona() {
         return tipoPersona;
     }
 
@@ -187,7 +190,7 @@ public class Personas implements Serializable {
 
     public void setUsuariosList(List<Usuarios> usuariosList) {
         this.usuariosList = usuariosList;
-    }
+    }*/
 
     public Usuarios getUsuarios() {
         return usuarios;

@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+<ui:define name="content">
+		<style type="text/css">
+.ui-panel {
+	margin-top: 20px
+}
+</style>
+
+        <div class="ContainerIndent">
+            <p:panel header="Empleados | Datos Empleados"
+                     id="panelMantenimientoEmpleado">
+                <div class="Container100">
+                    <div class="ContainerIndent">
+                        <h:form id="form" enctype="multipart/form-data">
+                            <p:messages id="msjEvaluacion" showDetail="true" closable="true"
+                                    />
+				<div class="Container150">
+                                <div class="ContainerIndent">
+                                    <h:outputText value="Registro de empleados" styleClass="FontBold Fs18 hardblue" />
+                                </div>
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="* Cedula: " />
+                                    <p:inputText id="txtCedula" value="#{personalController.personal.cedula}" required="true" label="Cedula" placeholder="Cedula"/>
+                                    <p:outputLabel value="* Nombres: "/>
+                                    <p:inputText id="txtNombres" value="#{personalController.personal.nombres}" required="true" label="Nombres" placeholder="Nombres"/>
+                                    <p:outputLabel value="* Apellidos: "/>
+                                    <p:inputText id="txtApellidos" value="#{personalController.personal.apellidos}" required="true" label="Apellidos" placeholder="Apellidos"/>
+                                    <p:outputLabel value="Fecha de Nacimiento: "/>
+                                    <p:calendar value="#{personalController.personal.fechaNacimiento}"  locale="es" required="true" label="Fecha de Nacimiento" placeholder="Fecha de Nacimiento"/>
+                                    <p:outputLabel value="Celular: "/>
+                                    <p:inputText value="#{personalController.personal.celular}" required="true" label="Celular" placeholder="Celular"/>
+                                    <p:outputLabel value="Telefono: "/>
+                                    <p:inputText value="#{personalController.personal.telefono}" required="true" label="Telefono" placeholder="Telefono"/>           
+                                    <p:outputLabel value="Email: "/>
+                                    <p:inputText value="#{personalController.personal.email}" required="true" label="Email" placeholder="Email"/>
+                                    <p:outputLabel value="Direccion: "/>
+                                    <p:inputText value="#{personalController.personal.direccion}" required="true" label="Direccion" placeholder="Direccion"/>
+                                    <p:outputLabel value="Sueldo: "/>
+                                    <p:inputText value="#{personalController.personal.sueldo}" required="true" label="Sueldo" placeholder="Sueldo"/>
+                                    <p:outputLabel value="Foto: "/>
+                                    <p:fileUpload
+                                            value="#{personalController.archivo}"
+                                            mode="simple" label="Seleccione imagen" />
+                                    <p:outputLabel value="Username: "/>
+                                    <p:inputText value="#{personalController.usuarios.username}" required="true" label="Username" placeholder="Username"/>
+                                    <p:outputLabel value="Password: "/>
+                                    <p:password id="clave1" value="#{personalController.usuarios.password}" match="clave2" feedback="true"
+                                                validatorMessage="Las claves no coinciden" promptLabel="Ingrese una clave"
+                                                weakLabel="Debil" strongLabel="Fuerte" goodLabel="Bueno"/>
+                                    <p:outputLabel value="Repetir password: "/>
+                                    <p:password id="clave2" required="true" requiredMessage="Campo requerido"/>
+                                        </h:panelGrid>
+                                <div class="ContainerIndent">
+                                    <p:commandButton value="Registrar" actionListener="#{personalController.registrarPersonal()}" ajax="false"/>
+                                </div>
+                        </div>
+                        </h:form>
+                    </div>
+                </div>     
+            </p:panel>
+        </div>
+</ui:define>
+
+</ui:composition>

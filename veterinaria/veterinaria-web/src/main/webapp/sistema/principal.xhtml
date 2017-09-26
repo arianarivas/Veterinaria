@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/WEB-INF/template.xhtml">
+
+
+	<ui:define name="head">
+		<script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef','#27aae1'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                       textColor: '#9fadb5' 
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+            
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef','#27aae1','#33ccff','#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+
+            function handleMessage(message) {
+                var chatContent = $(PrimeFaces.escapeClientId('form:public')),
+                text = (message.user) ? message.user + ':' + message.text: message.text;
+         
+                chatContent.append(text + '<br />');
+         
+                //keep scroll
+                chatContent.scrollTop(chatContent.height());
+         
+                if(message.updateList) {
+                    updateList();
+                }
+            }
+        </script>
+		<style type="text/css">
+.jqplot-target, .jqplot-axis {
+	color: #9fadb5;
+}
+
+.ui-clock {
+	border-radius: 0px !important;
+	background-color: none !important;
+	background: none;
+	border: 0px !important;
+	color: gray !important;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+	height: 200px;
+	width: 100%;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+		<!-- 
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="EmptyBox20"></div>
+
+				<div class="Container25 Responsive">
+					<div class="ContainerIndent">
+
+
+						<p:panel style="min-height: 340px;">
+                                                    
+							<div align="right">
+								<i class="Fs50 Fleft Wid25 hardblue TexAlCenter"> 
+                                                                    <p:graphicImage width="110" value="#{loginFinal.myImage}" cache="false"/>
+                                                                    <p:graphicImage width="110"
+										value="../resources/images/user_administrator.jpg"
+                                                                                rendered="#{loginFinal.myImage==null}"
+										cache="false" />
+                                                                </i>
+								<div class="Fs24 Fright MarTop10 gray Wid70 ">
+									<span class="hardblue"><h:outputText
+                                                                                value="#{loginFinal.usu.username}" /></span>,
+									Bienvenido
+								</div>
+							</div>
+
+							<p:separator styleClass="Wid100"></p:separator>
+							<div class="EmptyBox10"></div>
+							<i class="icon-android gray MarRight10 Fs14 Fright"><h:outputText
+									value="Nombre: " /> <h:outputText
+                                                                        value="#{loginFinal.usu.nombreCompleto}" />
+							</i>
+
+							<i class="icon-star gray MarRight10 Fs14 Fright"><h:outputText
+									value="Roles: " /> <h:outputText
+                                                                        value="ADMin" />
+							</i>
+
+
+							<i class="icon-home gray MarRight10 Fs14 Fright"> <h:outputText
+									value="Oficina: " /> <h:outputText
+									value="Urb. La Perla" />
+							</i>
+							<h:outputText
+                                                            rendered="#{ empty loginFinal.usu.rol }"
+								value="Nota: su usuario no cuenta con roles asignados, por favor comuniquese con el administrador" />
+							<div class="EmptyBox10"></div>
+							<p:separator styleClass="Wid100"></p:separator>
+							<div class="EmptyBox10"></div>
+							<div align="center">
+								<h:form>
+									<i class="gray MarRight10 Fs14 Fright"> <p:clock
+											pattern="HH:mm:ss">
+										</p:clock>
+									</i>
+									<i class="icon-calendar-2 gray MarRight10 Fs14 Fright"> <h:outputText
+                                                                                value="#{currentDate}">
+                                                                                <f:convertDateTime pattern="MM/dd/yyyy" type="date" />
+                                                                            </h:outputText>
+									</i>
+									<div class="EmptyBox10"></div>
+									<i class="icon-location-2 gray MarRight10 Fs13 Fright"> <h:outputText
+											value="Ultima Sesion: " /> <h:outputText
+                                                                                        value="#{loginFinal.usu.ultimaSesion}" >
+                                                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" type="date" />
+                                                                            </h:outputText>
+									</i>
+
+								</h:form>
+
+							</div>
+
+						</p:panel>
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div align="right">
+			<p:panel id="p3" style="background-color:transparent;border: 0; ">
+				<h:graphicImage
+					value="/imagenes/corlasosa/logotipoCorlasosa2013.png" width="10%" />
+			</p:panel>
+		</div>
+		
+		<iframe name="oculto" width="0" height="0">
+			
+		</iframe>
+		SECTION 1 -->
+	</ui:define>
+
+
+
+</ui:composition>

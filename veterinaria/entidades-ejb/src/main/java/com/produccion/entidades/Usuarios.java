@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.produccion.entidades;
 
 import java.io.Serializable;
@@ -9,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,15 +22,12 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 /**
- * 
- * Proyecto - Multicentro de Mascotas
- * @author mpluas - arivas
- * @version 1.0
- * 
+ *
+ * @author mplua
  */
 @Entity
 @Table(name = "usuarios")
-public class Usuarios implements Serializable {
+public class Usuarios implements Serializable{
 
     private static final long serialVersionUID = 1L;
     @Size(max = 45)
@@ -42,11 +45,15 @@ public class Usuarios implements Serializable {
     @Lob
     @Column(name = "imagen")
     private byte[] imagen;
-    @Id
-    @OneToOne(fetch = FetchType.LAZY)
+    @Id 
+    @Column(name="personas_idpersonas") 
+    Integer id;
+    
+    @MapsId 
+    @OneToOne(mappedBy = "usuarios")
     @JoinColumn(name = "personas_idpersonas")
     private Personas personas;
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "rol_idrol", referencedColumnName = "idrol")
     private Rol rol;
     
@@ -120,6 +127,14 @@ public class Usuarios implements Serializable {
         return rol;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setRol(Rol rol) {
         this.rol = rol;
         if(!this.rol.getUsuariosList().contains(this)){
@@ -128,4 +143,4 @@ public class Usuarios implements Serializable {
     }
 
 }
- 
+    
