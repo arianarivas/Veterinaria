@@ -16,7 +16,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 	</f:facet>
 	<title>Veterinaria Multicentro de las Mascotas</title>
-        <f:event type="preRenderView" listener="#{plantillaMB.verificarSesion()}" />
+        <f:event type="preRenderView" listener="#{plantillaController.verificarSesion()}" />
 	<h:outputScript name="js/layout.js" library="sentinel-layout" />
         <h:outputScript name="spanishLocale.js" library="js" />
 	<h:outputText value="&lt;!--[if gte IE 9]&gt;" escape="false" />
@@ -32,6 +32,7 @@
 
         <ui:include src="topbar.xhtml" />
         
+        <ui:include src="leftmenu.xhtml" />
         
         
 	<div id="layout-portlets-cover" >

@@ -5,49 +5,41 @@
  */
 package com.produccion.controller;
 
-
-import com.produccion.eao.UsuariosFacadeLocal;
 import com.produccion.entidades.Usuarios;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import com.produccion.interfaz.PersonasFacadeLocal;
+import com.produccion.interfaz.UsuariosFacadeLocal;
+import com.produccion.seguridad.configuracion.BeanFormulario;
+import com.produccion.seguridad.configuracion.UtilCryptography;
 import java.io.Serializable;
-import java.util.List;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
+import javax.inject.Named;
 
 /**
  *
- * @author mpluas
+ * @author mplua
  */
-@ManagedBean(name = "loginFinal")
-@ViewScoped
-public class LoginController implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
-    //Con inject no hay necesidad de declarar en el init
 
-    private Usuarios usuarios;  
-    private Usuarios usu;
-    private String fechaActual;
+@Named
+@SessionScoped
+public class LoginController extends BeanFormulario implements Serializable {
+    
     @EJB
-    private UsuariosFacadeLocal usuarioEBJ;
-    private StreamedContent myImage;
+    private UsuariosFacadeLocal usuarioEJB;
+    @EJB
+    private PersonasFacadeLocal personasEJB;
+    private Usuarios usuarios;
+    private Usuarios usu;
+    
+    private String cambContrase1;
+    private String cambContrase2;
     
     @PostConstruct
-    protected void init() {
+    public void init(){
         usuarios = new Usuarios();
-        //usu = new Usuarios();
-        fechaActual = new Date().toString();
     }
 
     public Usuarios getUsuarios() {
@@ -66,57 +58,73 @@ public class LoginController implements Serializable {
         this.usu = usu;
     }
 
-    public UsuariosFacadeLocal getUsuarioEBJ() {
-        return usuarioEBJ;
+    public String getCambContrase1() {
+        return cambContrase1;
     }
 
-    public void setUsuarioEBJ(UsuariosFacadeLocal usuarioEBJ) {
-        this.usuarioEBJ = usuarioEBJ;
+    public void setCambContrase1(String cambContrase1) {
+        this.cambContrase1 = cambContrase1;
     }
 
-    public String getFechaActual() {
-        return fechaActual;
+    public String getCambContrase2() {
+        return cambContrase2;
     }
 
-    public void setFechaActual(String fechaActual) {
-        this.fechaActual = fechaActual;
+    public void setCambContrase2(String cambContrase2) {
+        this.cambContrase2 = cambContrase2;
     }
-
-    public StreamedContent getMyImage() {
-        if (usu.getImagen() != null) {
-    InputStream is = new ByteArrayInputStream((byte[]) usu.getImagen());
-    myImage = new DefaultStreamedContent(is, "image/png");
-        }
-        return myImage;
-    }
-
-    public void setMyImage(StreamedContent myImage) {
-        this.myImage = myImage;
-    }
-public void imagenes(){
-    InputStream is = new ByteArrayInputStream((byte[]) usu.getImagen());
-    myImage = new DefaultStreamedContent(is, "image/png");
-}
+    
     public String autenticar() {
         String redireccion = null;
         try {
-            usu = usuarioEBJ.autenticar(usuarios);
+            usu = usuarioEJB.autenticar(usuarios);
             if (usu != null) {
                 //Almacena la sesion de jsf
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuarios", usu);
+                //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuarios", usu);
+                setUsuarioSession("Usuarios", usu);
                 System.out.println("******************************** INICIO DE SESION ********************************");
-                System.out.println("nombre " + usu.getNombreCompleto());
+                System.out.println("Usuario logeado " + usu.getUsername());
                 redireccion = "/sistema/principal?faces-redirect=true";
             }else{
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "USUARIO/CLAVE Invalidos")); 
+               System.out.println("USUARIO/CLAVE Invalidos");
+               addError("Error", "USUARIO/CLAVE Invalidos");
             } 
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Aviso", "Error"));
+            System.out.println("ERROR");
+            addError("Error", "ERROR");
         }
         return redireccion;
     }
-       
+    
     public void logout(){
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-    }  
+        System.out.println("******************************** FIN DE SESION ********************************");
+        //FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        cerrarSession();
+    } 
+    
+    public void cambiarContrasenia() {
+            /*if (!cambContrase1.equals(cambContrase2)) {
+                    addError("Error", "Las contraseñas no coninciden");
+                    return;
+            }
+
+            if (cambContrase1.length() < 8) {
+                    addError("Error", "Ingrese una contraseña de 8 caracteres mínimo");
+                    return;
+            }*/
+            try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Usuarios modificarUsuario = (Usuarios) context.getExternalContext().getSessionMap().get("Usuarios");
+                    modificarUsuario.setPassword(UtilCryptography.encriptar(cambContrase1));
+                    System.out.println("ses " + modificarUsuario.getPersonas().getIdpersonas());
+                    //System.out.println("ses " + modificarUsuario.getId());
+                    usuarioEJB.edit(modificarUsuario);
+                    addMensaje("Su contraseña fue cambiada con éxito");
+            } catch (Throwable e) {
+                    addError("Imposible realizar el cambio de contraseña");
+                    e.printStackTrace();
+            }
+    }
+
+    
 }

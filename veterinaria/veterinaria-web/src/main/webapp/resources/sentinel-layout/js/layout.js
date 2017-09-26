@@ -85,7 +85,7 @@ var Sentinel = {
         var $this = this;
         
         //menubar resize btn binding
-        $('#layout-menubar-resize').on('click', function(e) {
+        $('#layout-menubar-resize').on('click', function(e){
             Sentinel.toggleLeftMenu();
             e.preventDefault();
         });

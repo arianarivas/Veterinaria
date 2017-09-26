@@ -3,22 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.produccion.configuraciones;
+package com.produccion.EAO;
+
 import java.io.*;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 /**
  *
- * @author mpluas
+ * @author mplua
  */
 public class UtilCryptography 
 {
 
+	
+	
 	private static int ITERATION_COUNT = 19;
     private static final String CLAVE = "CONFI_CONECEL%198210_2012";
     
@@ -71,8 +75,8 @@ public class UtilCryptography
         public static void main(String arg[])
             throws Exception
         {
-            //  System.out.println(desencriptar(("+bz2qD41pLI=")));//c0rl4s0s4
-        	System.out.println(encriptar("marlon150"));
+        	//System.out.println(encriptar("mpluas"));
+        	System.out.println(desencriptar("mPdzmMZuSuI8SZlzRi4L9w=="));
             
         }
 
@@ -81,4 +85,3 @@ public class UtilCryptography
         };
         //pari1212
 }
-

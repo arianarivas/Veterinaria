@@ -144,17 +144,14 @@
                                 width="100%" height="150" styleClass="centered" /><br></br>
 
                 <h1>Bienvenido.</h1>
-                <p>Ser veterinario no es sólo cuidar a los animales, es ante todo respetar </p>
+                <p>Ser veterinario no es solo cuidar a los animales, es ante todo respetar </p>
                 <p>la vida de todos los que habitamos en este planeta y dignificar su </p>
                 <p>existencia.</p>
                 <br/>
                 <p:messages globalOnly="false" showDetail="true" id="txtMensaje" />
-                <p:inputText value="#{loginFinal.usuarios.username}" placeholder="Usuario" required="true" 
-                             requiredMessage="Ingrese Usuario" onblur="ChangeCase(this);" />
-                <p:password value="#{loginFinal.usuarios.password}" placeholder="Password" required="true"
-                            requiredMessage="Ingrese Password" feedback="false" />
-                <p:commandButton value="Ingresar" styleClass="Fs16"
-                                 action="#{loginFinal.autenticar}" update="@form" ></p:commandButton>
+                <p:inputText value="#{loginController.usuarios.username}" placeholder="Usuario" onblur="ChangeCase(this);" />
+                <p:password value="#{loginController.usuarios.password}" placeholder="Password" feedback="false" />
+                <p:commandButton value="Ingresar" styleClass="Fs16" action="#{loginController.autenticar}" update="@form"></p:commandButton>
             </div>
         </h:form>
     </h:body>

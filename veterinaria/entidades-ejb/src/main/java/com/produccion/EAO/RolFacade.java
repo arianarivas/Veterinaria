@@ -1,17 +1,19 @@
-package com.produccion.implementacion.eao;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.produccion.EAO;
 
-import com.produccion.eao.RolFacadeLocal;
+import com.produccion.interfaz.RolFacadeLocal;
 import com.produccion.entidades.Rol;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * 
- * Proyecto - Multicentro de Mascotas
- * @author mpluas - arivas
- * @version 1.0
- * 
+ *
+ * @author mplua
  */
 @Stateless
 public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal {

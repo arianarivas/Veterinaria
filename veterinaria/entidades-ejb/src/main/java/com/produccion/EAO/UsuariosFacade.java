@@ -1,7 +1,11 @@
-package com.produccion.implementacion.eao;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.produccion.EAO;
 
-import com.produccion.configuraciones.UtilCryptography;
-import com.produccion.eao.UsuariosFacadeLocal;
+import com.produccion.interfaz.UsuariosFacadeLocal;
 import com.produccion.entidades.Usuarios;
 import java.util.List;
 import java.util.logging.Level;
@@ -10,14 +14,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- * 
- * Proyecto - Multicentro de Mascotas
- * @author mpluas - arivas
- * @version 1.0
- * 
+ *
+ * @author mplua
  */
 @Stateless
 public class UsuariosFacade extends AbstractFacade<Usuarios> implements UsuariosFacadeLocal {
@@ -55,5 +55,16 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
             }
         }
         return usuarios;
+    }
+    
+    @Override
+    public void cabiarClaveUsuario(Usuarios usuario) 
+    {
+            String lsQuery = "update usuarios a " + "set a.password = ?, "
+                            + "where a.personas_idpersonas = ? ";
+            Query query = em.createNativeQuery(lsQuery);
+            query.setParameter(1, usuario.getPassword());
+            query.setParameter(2, usuario.getPersonas().getIdpersonas());
+            query.executeUpdate();
     }
 }

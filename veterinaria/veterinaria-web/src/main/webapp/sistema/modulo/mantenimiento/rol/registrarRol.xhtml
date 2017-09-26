@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+<ui:define name="content">
+		<style type="text/css">
+.ui-panel {
+	margin-top: 20px
+}
+</style>
+        <div class="ContainerIndent">
+            <p:panel header="Rol | Ingresar Rol"
+                     id="panelMantenimientoEmpleado">
+        <h:form>
+            <p:outputLabel value="Rol: "/>
+            <p:inputText value="#{rolController.rol.rol}"/>
+            <p:inputText value="#{rolController.rol.observacion}"/>
+            <p:commandButton value="Registrar" actionListener="#{rolController.registrarRol()}"/>
+        </h:form>
+            </p:panel>
+        </div>
+</ui:define>
+
+</ui:composition>
+

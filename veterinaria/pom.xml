@@ -1,32 +1,44 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.produccion</groupId>
-  <artifactId>veterinaria</artifactId>
-  <version>1.0</version>
-  <packaging>pom</packaging>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.produccion</groupId>
+    <artifactId>veterinaria</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
 
     <properties>
-            <plugin.ear.version>2.7</plugin.ear.version>
+        <plugin.ear.version>2.10</plugin.ear.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
-  <modules>
-    <module>entidades-ejb</module>
-    <module>veterinaria-web</module>
-    <module>veterinaria-ear</module>
-  </modules>
+  
+    <modules>
+        <module>veterinaria-ear</module>
+        <module>veterinaria-web</module>
+        <module>entidades-ejb</module>
+    </modules>
   
     <build>
-            <plugins>
-                    <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-compiler-plugin</artifactId>
-                            <configuration>
-                                    <source>1.8</source>
-                                    <target>1.8</target>
-                            </configuration>
-                    </plugin>
-            </plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
-        
+    
 </project>

@@ -5,8 +5,9 @@
  */
 package com.produccion.controller;
 
-import com.produccion.eao.RolFacadeLocal;
+
 import com.produccion.entidades.Rol;
+import com.produccion.interfaz.RolFacadeLocal;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -50,11 +51,15 @@ public class rolController implements Serializable{
         this.listaRoles = listaRoles;
     }
     
+    void limpiar(){
+       rol = new Rol(); 
+    }
     public void registrarRol(){
         try {
             rol.setFechaRegistro(new Date());
             rol.setEstado("A");
             this.rolEJB.create(this.rol);
+            limpiar();
         } catch (Exception e) {
         }
     }
