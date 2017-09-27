@@ -57,23 +57,27 @@ public class Menu implements Serializable{
     @Size(max = 2)
     @Column(name = "tipo")
     private String tipo;
-    @ManyToOne
-    @JoinColumn(name = "rol_idrol", referencedColumnName = "idrol")
-    private Rol rol;
+//    @ManyToOne
+//    @JoinColumn(name = "rol_idrol", referencedColumnName = "idrol")
+//    private Rol rol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuPadre", fetch = FetchType.EAGER)
     @OrderBy("orden ASC")
     private List<Menu> menuPadreeList;
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_padre", referencedColumnName = "idmenu")
     private Menu menuPadre;
+    @OneToMany(mappedBy="menu")
+    private List<MenuRol> menuRoles;
     
     public Menu() {
         this.menuPadreeList = new ArrayList<>();
+        this.menuRoles = new ArrayList<>();
     }
 
     public Menu(Integer idmenu) {
         this.idmenu = idmenu;
         this.menuPadreeList = new ArrayList<>();
+        this.menuRoles = new ArrayList<>();
     }
 
     public Menu(String estado, String accion, String descripcion, String opcion, Integer orden, String rutaImagen, String tipo) {
@@ -85,6 +89,7 @@ public class Menu implements Serializable{
         this.rutaImagen = rutaImagen;
         this.tipo = tipo;
         this.menuPadreeList = new ArrayList<>();
+        this.menuRoles = new ArrayList<>();
     }
     
 
@@ -160,16 +165,16 @@ public class Menu implements Serializable{
         this.idmenu = idmenu;
     }
 
-    public Rol getRol() {
-        return rol;
-    }
+//    public Rol getRol() {
+//        return rol;
+//    }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
-        if(!this.rol.getMenuList().contains(this)){
-            this.rol.getMenuList().add(this);
-        }
-    }
+//    public void setRol(Rol rol) {
+//        this.rol = rol;
+//        if(!this.rol.getMenuList().contains(this)){
+//            this.rol.getMenuList().add(this);
+//        }
+//    }
 
     public List<Menu> getMenuPadreeList() {
         return menuPadreeList;
@@ -177,6 +182,14 @@ public class Menu implements Serializable{
 
     public void setMenuPadreeList(List<Menu> menuPadreeList) {
         this.menuPadreeList = menuPadreeList;
+    }
+
+    public List<MenuRol> getMenuRoles() {
+        return menuRoles;
+    }
+
+    public void setMenuRoles(List<MenuRol> menuRoles) {
+        this.menuRoles = menuRoles;
     }
     
 }

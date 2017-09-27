@@ -6,17 +6,23 @@
 package com.produccion.controller;
 
 import com.produccion.entidades.Usuarios;
+import com.produccion.entidades.UsuariosRol;
 import com.produccion.interfaz.PersonasFacadeLocal;
 import com.produccion.interfaz.UsuariosFacadeLocal;
 import com.produccion.seguridad.configuracion.BeanFormulario;
 import com.produccion.seguridad.configuracion.UtilCryptography;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -29,13 +35,13 @@ public class LoginController extends BeanFormulario implements Serializable {
     
     @EJB
     private UsuariosFacadeLocal usuarioEJB;
-    @EJB
-    private PersonasFacadeLocal personasEJB;
     private Usuarios usuarios;
     private Usuarios usu;
-    
+    private StreamedContent myImage;
+    private String fechaActual;
     private String cambContrase1;
     private String cambContrase2;
+    private String rolesUsuario;
     
     @PostConstruct
     public void init(){
@@ -73,14 +79,44 @@ public class LoginController extends BeanFormulario implements Serializable {
     public void setCambContrase2(String cambContrase2) {
         this.cambContrase2 = cambContrase2;
     }
+
+    public String getRolesUsuario() {
+        List<UsuariosRol> listaUsuariosRoles = usu.getUsuariosRoles();
+        String rolesUsuario = "";
+        for (UsuariosRol rol : listaUsuariosRoles) {
+                if (rol.getEstado().equals("A")) {
+                        rolesUsuario = rolesUsuario + rol.getRol().getRol() + ", ";
+                }
+        }
+        return rolesUsuario;
+    }
+
+
+    public StreamedContent getMyImage() {
+        if (usu.getImagen() != null) {
+    InputStream is = new ByteArrayInputStream((byte[]) usu.getImagen());
+    myImage = new DefaultStreamedContent(is, "image/png");
+        }
+        return myImage;
+    }
+
+    public void setMyImage(StreamedContent myImage) {
+        this.myImage = myImage;
+    }
+
+    public String getFechaActual() {
+        return fechaActual;
+    }
+
+    public void setFechaActual(String fechaActual) {
+        this.fechaActual = fechaActual;
+    }
     
     public String autenticar() {
         String redireccion = null;
         try {
             usu = usuarioEJB.autenticar(usuarios);
             if (usu != null) {
-                //Almacena la sesion de jsf
-                //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuarios", usu);
                 setUsuarioSession("Usuarios", usu);
                 System.out.println("******************************** INICIO DE SESION ********************************");
                 System.out.println("Usuario logeado " + usu.getUsername());
@@ -98,12 +134,11 @@ public class LoginController extends BeanFormulario implements Serializable {
     
     public void logout(){
         System.out.println("******************************** FIN DE SESION ********************************");
-        //FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         cerrarSession();
     } 
     
     public void cambiarContrasenia() {
-            /*if (!cambContrase1.equals(cambContrase2)) {
+            if (!cambContrase1.equals(cambContrase2)) {
                     addError("Error", "Las contraseñas no coninciden");
                     return;
             }
@@ -111,7 +146,7 @@ public class LoginController extends BeanFormulario implements Serializable {
             if (cambContrase1.length() < 8) {
                     addError("Error", "Ingrese una contraseña de 8 caracteres mínimo");
                     return;
-            }*/
+            }
             try {
             FacesContext context = FacesContext.getCurrentInstance();
             Usuarios modificarUsuario = (Usuarios) context.getExternalContext().getSessionMap().get("Usuarios");
@@ -126,5 +161,4 @@ public class LoginController extends BeanFormulario implements Serializable {
             }
     }
 
-    
 }

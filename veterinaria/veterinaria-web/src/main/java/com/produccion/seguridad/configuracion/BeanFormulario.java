@@ -7,20 +7,12 @@ package com.produccion.seguridad.configuracion;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Properties;
 
-import javax.el.ExpressionFactory;
-import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -55,19 +47,6 @@ public abstract class BeanFormulario implements Serializable{
         protected void cerrarSession(){
             getContext().getExternalContext().invalidateSession();
         }
-        
-	protected HttpSession getsession(){
-		
-		return (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-	}
-	
-	protected HttpServletRequest getRequest(){
-		return (HttpServletRequest) getContext().getExternalContext().getRequest();				
-	}
-	
-	protected HttpServletResponse getResponse(){
-		return (HttpServletResponse) getContext().getExternalContext().getResponse();
-	}
 
 	public void addMensaje(String msg) {
 		addMensaje(msg, FacesMessage.SEVERITY_INFO);
@@ -99,61 +78,7 @@ public abstract class BeanFormulario implements Serializable{
 		ctx.addMessage(null, message);
 	}
 
-	public String getMensaje(String key) {
-		return (String) getExpresion("etiqueta['" + key + "']");		
-	}
-
-	
-	public boolean isAutenticado() {
-		return JSFUtils.isAutenticado();
-	}
-	
-	@SuppressWarnings("el-syntax")
-	private Object getExpresion(String expression) {
-		FacesContext ctx = getContext();
-		ExpressionFactory factory = ctx.getApplication().getExpressionFactory();
-		ValueExpression ex = factory.createValueExpression(ctx.getELContext(),
-				"#{" + expression + "}", Object.class);
-		return ex.getValue(ctx.getELContext());
-
-	}
-	
-	protected HashMap<String, Object> getAtributosVisibles()
-	{
-		@SuppressWarnings("rawtypes")
-		Class clase = this.getClass();
-		HashMap<String, Object> parametros = new HashMap<String, Object>();
-		try {
-			
-			Method[] metodos = clase.getMethods();
-			for (Method metodo : metodos) {
-				String nombreMetodo = metodo.getName();
-				if (nombreMetodo.toUpperCase().indexOf("GET") != -1) {
-					Object obj = metodo.invoke(this);
-					if (obj != null) 
-					{
-						parametros.put(nombreMetodo.toUpperCase(), obj);
-					}
-				}
-			}
-		}catch (Throwable e) 
-		{
-			e.printStackTrace();
-		}
-		return parametros;
-	}
-
-	
-	protected Properties getPropiedadesGenerales() {
-		return propiedadesGenerales;
-	}
-	
-    
-    protected void setPropiedadesGenerales(Properties propiedadesGenerales) {
-		this.propiedadesGenerales = propiedadesGenerales;
-	}
-	
-	/*Inicio Metos Edwin Amaguaya*/
+        /*Inicio Metos Edwin Amaguaya*/
 	protected void redireccionarPagina(String urlPagina) throws IOException
 	{
 		FacesContext ctx = getContext();
@@ -163,24 +88,5 @@ public abstract class BeanFormulario implements Serializable{
 		extContext.redirect(url);
 	}
 	/*Fin Metos Edwin Amaguaya*/
-	
-	//VIZUALIZACION DE ERRORES 
-	public String[] ajaxErrorHandler(Exception e2){
-		System.out.println("Error Handler");
-		e2.printStackTrace();
-		String errorNameAjax = e2.getMessage();
-		String errorMsgAjax = e2.toString(); 
-		for (StackTraceElement err : e2.getStackTrace()) {
-			errorMsgAjax = errorMsgAjax + "\n" + err.toString();
-		}
-		String[] resultado =   new String[3];
-		resultado[0]=errorNameAjax;
-		resultado[1]=errorMsgAjax;
-		return resultado;
-	}
-	
-	public HttpServletRequest getHttpServletRequest() {
-		return JSFUtils.getHttpServletRequest();
-	}
 
 }

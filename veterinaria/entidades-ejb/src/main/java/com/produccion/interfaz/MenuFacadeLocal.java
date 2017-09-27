@@ -6,6 +6,7 @@
 package com.produccion.interfaz;
 
 import com.produccion.entidades.Menu;
+import com.produccion.entidades.Usuarios;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface MenuFacadeLocal {
     List<Menu> findRange(int[] range);
 
     int count();
+    
+    boolean permitirAccesoOpcion(Menu opcion, Usuarios usuario);
     
 }

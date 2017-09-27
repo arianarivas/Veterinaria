@@ -51,20 +51,29 @@ public class Rol implements Serializable{
     @Size(max = 2)
     @Column(name = "estado")
     private String estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
+    /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
     private List<Menu> menuList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.EAGER)
-    private List<Usuarios> usuariosList;
+    private List<Usuarios> usuariosList;*/
+    @OneToMany(mappedBy="rol")
+    private List<UsuariosRol> usuariosRoles;
+    @OneToMany(mappedBy="rol")
+    private List<MenuRol> menuRoles;
+    
     
     public Rol() {
-        this.menuList = new ArrayList<>();
-        this.usuariosList = new ArrayList<>();
+        //this.menuList = new ArrayList<>();
+        //this.usuariosList = new ArrayList<>();
+        this.usuariosRoles = new ArrayList<>();
+        this.menuRoles = new ArrayList<>();
     }
 
     public Rol(Integer idrol) {
         this.idrol = idrol;
-        this.menuList = new ArrayList<>();
-        this.usuariosList = new ArrayList<>();
+        //this.menuList = new ArrayList<>();
+        //this.usuariosList = new ArrayList<>();
+        this.usuariosRoles = new ArrayList<>();
+        this.menuRoles = new ArrayList<>();
     }
 
     public Rol(String rol, String observacion, Date fechaRegistro, String estado) {
@@ -72,8 +81,10 @@ public class Rol implements Serializable{
         this.observacion = observacion;
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
-        this.menuList = new ArrayList<>();
-        this.usuariosList = new ArrayList<>();
+        //this.menuList = new ArrayList<>();
+        //this.usuariosList = new ArrayList<>();
+        this.usuariosRoles = new ArrayList<>();
+        this.menuRoles = new ArrayList<>();
     }
 
     public Integer getIdrol() {
@@ -116,35 +127,51 @@ public class Rol implements Serializable{
         this.estado = estado;
     }
 
-    public List<Menu> getMenuList() {
-        return menuList;
+    public List<MenuRol> getMenuRoles() {
+        return menuRoles;
     }
 
-    public void setMenuList(List<Menu> menuList) {
-        this.menuList = menuList;
-    }
-    
-    public void addMenu(Menu menu){
-        this.menuList.add(menu);
-        if(menu.getRol()!= this){
-            menu.setRol(this);
-        }
-    }
-    
-    public void addUsuarios(Usuarios usuarios){
-        this.usuariosList.add(usuarios);
-        if(usuarios.getRol()!= this){
-            usuarios.setRol(this);
-        }
+    public void setMenuRoles(List<MenuRol> menuRoles) {
+        this.menuRoles = menuRoles;
     }
 
-    public List<Usuarios> getUsuariosList() {
-        return usuariosList;
+//    public List<Menu> getMenuList() {
+//        return menuList;
+//    }
+
+    public List<UsuariosRol> getUsuariosRoles() {
+        return usuariosRoles;
     }
 
-    public void setUsuariosList(List<Usuarios> usuariosList) {
-        this.usuariosList = usuariosList;
+    public void setUsuariosRoles(List<UsuariosRol> usuariosRoles) {
+        this.usuariosRoles = usuariosRoles;
     }
+
+//    public void setMenuList(List<Menu> menuList) {
+//        this.menuList = menuList;
+//    }
+//    
+//    public void addMenu(Menu menu){
+//        this.menuList.add(menu);
+//        if(menu.getRol()!= this){
+//            menu.setRol(this);
+//        }
+//    }
+//    
+//    public void addUsuarios(Usuarios usuarios){
+//        this.usuariosList.add(usuarios);
+//        if(usuarios.getRol()!= this){
+//            usuarios.setRol(this);
+//        }
+//    }
+//
+//    public List<Usuarios> getUsuariosList() {
+//        return usuariosList;
+//    }
+//
+//    public void setUsuariosList(List<Usuarios> usuariosList) {
+//        this.usuariosList = usuariosList;
+//    }
     
     
     @Override
