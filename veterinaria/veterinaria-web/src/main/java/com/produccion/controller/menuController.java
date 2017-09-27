@@ -14,7 +14,8 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.model.menu.DefaultMenuItem;
@@ -71,24 +72,25 @@ public class menuController extends BeanFormulario implements Serializable{
         menItm.setContainerStyleClass("layout-menubar-active");
         model.addElement(menItm);
         for (Menu opcion : lista) {
-            if (opcion.getTipo().equals("S") && opcion.getMenuPadre() == null){
             DefaultSubMenu submenu = new DefaultSubMenu(opcion.getOpcion());
             System.out.println(opcion.getOpcion() + "----------------------------");
             submenu.setId("OPTH" + opcion.getIdmenu());
             submenu.setIcon(opcion.getRutaImagen());
-            Iterator<Menu> opcionesHijas = opcion.getMenuPadreeList().iterator();
+            if (opcion.getTipo().equals("P") && MenuEJB.permitirAccesoOpcion(opcion, usu)) {
+            Iterator<Menu> opcionesHijas = opcion.getMenuPadreeList().iterator(); //Busco si tiene hijas 
             while (opcionesHijas.hasNext()) {
                 Menu opcionHija = opcionesHijas.next();
-                if (opcionHija.getRol().getIdrol() == usu.getRol().getIdrol()) {
+                
+                if (MenuEJB.permitirAccesoOpcion(opcionHija, usu)) {
+                    System.out.println("ud de usuario " + usu.getId());
+                    System.out.println("ud de menu " + opcionHija.getIdmenu());
                     if (opcionHija.getEstado().equals("A")) {
                         submenu.getElements().add(getMenuHija(opcionHija));
-                    }
-                    System.out.println("rol es " + usu.getRol().getIdrol());
-                    System.out.println("estan en el rol" + opcionHija.getIdmenu());
-                }
+                    } 
+                }  
             }
             model.addElement(submenu);
-        }
+            }
         }
     
 /*            for (Menu m : lista) {
@@ -130,11 +132,11 @@ public class menuController extends BeanFormulario implements Serializable{
             DefaultMenuItem menItm = new DefaultMenuItem(opcionPadre.getOpcion());
             menItm.setIcon(opcionPadre.getRutaImagen());
             menItm.setTitle(opcionPadre.getDescripcion());
-            if (opcionPadre.getTipo().equals("P")) {
-                
-            }else {
-                menItm.setOnclick("pantalla.show()");
-            }
+//            if (opcionPadre.getTipo().equals("P")) {
+//                
+//            }else {
+//                menItm.setOnclick("pantalla.show()");
+//            }
             menItm.setUrl(opcionPadre.getAccion());
             //menItm.setCommand("#{verticalMenu.navegarUrl('"+ opcionPadre.getAccion() + "')}");
             menItm.setPartialSubmit(true);
@@ -146,7 +148,7 @@ public class menuController extends BeanFormulario implements Serializable{
             Iterator<Menu> opcionesHijas = opcionPadre.getMenuPadreeList().iterator();
             while (opcionesHijas.hasNext()) {
                 Menu opcionHija = opcionesHijas.next();
-                if (opcionHija.getRol().getIdrol() == usu.getRol().getIdrol()) {
+                if (MenuEJB.permitirAccesoOpcion(opcionHija, usu)) {
                     if (opcionHija.getEstado().equals("A")) {
                         menItm.getElements().add(getMenuHija(opcionHija));
                     }

@@ -76,21 +76,21 @@ public class personalController implements Serializable{
         personal = new Personal();
         usuarios = new Usuarios();
     }
-    public void registrarPersonal(){
-        try {
-            personal.setFechaRegistro(new Date());
-            personal.setEstado("A");
-            this.personalEJB.create(this.personal);
-            personal.setUsuarios(this.usuarios);
-            usuarios.setImagen(archivo.getContents());
-            usuarios.setPassword(DigestUtils.md5Hex(usuarios.getPassword()));
-            rol.setIdrol(1);
-            usuarios.setRol(rol);
-            this.usuariosEJB.create(this.usuarios);
-            limpiar();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se registro el empleado correctamente"));
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Abiso", "No se registro el empleado"));
-        }
-    }
+//    public void registrarPersonal(){
+//        try {
+//            personal.setFechaRegistro(new Date());
+//            personal.setEstado("A");
+//            this.personalEJB.create(this.personal);
+//            personal.setUsuarios(this.usuarios);
+//            usuarios.setImagen(archivo.getContents());
+//            usuarios.setPassword(DigestUtils.md5Hex(usuarios.getPassword()));
+//            rol.setIdrol(1);
+//            usuarios.setRol(rol);
+//            this.usuariosEJB.create(this.usuarios);
+//            limpiar();
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se registro el empleado correctamente"));
+//        } catch (Exception e) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Abiso", "No se registro el empleado"));
+//        }
+//    }
 }

@@ -82,10 +82,7 @@
 }
 </style>
 	</ui:define>
-
 	<ui:define name="content">
-		<!-- 
-
 		<div class="Container100">
 			<div class="ContainerIndent">
 				<div class="EmptyBox20"></div>
@@ -98,15 +95,15 @@
                                                     
 							<div align="right">
 								<i class="Fs50 Fleft Wid25 hardblue TexAlCenter"> 
-                                                                    <p:graphicImage width="110" value="#{loginFinal.myImage}" cache="false"/>
+                                                                    <p:graphicImage width="110" value="#{loginController.myImage}" cache="false" rendered="#{loginController.myImage!=null}"/>
                                                                     <p:graphicImage width="110"
-										value="../resources/images/user_administrator.jpg"
-                                                                                rendered="#{loginFinal.myImage==null}"
+										value="../resources/images/user_administrator.png"
+                                                                                rendered="#{loginController.myImage==null}"
 										cache="false" />
                                                                 </i>
 								<div class="Fs24 Fright MarTop10 gray Wid70 ">
 									<span class="hardblue"><h:outputText
-                                                                                value="#{loginFinal.usu.username}" /></span>,
+                                                                                value="#{loginController.usu.username}" /></span>,
 									Bienvenido
 								</div>
 							</div>
@@ -115,22 +112,21 @@
 							<div class="EmptyBox10"></div>
 							<i class="icon-android gray MarRight10 Fs14 Fright"><h:outputText
 									value="Nombre: " /> <h:outputText
-                                                                        value="#{loginFinal.usu.nombreCompleto}" />
+                                                                        value="#{loginController.usu.nombreCompleto}" />
 							</i>
 
 							<i class="icon-star gray MarRight10 Fs14 Fright"><h:outputText
 									value="Roles: " /> <h:outputText
-                                                                        value="ADMin" />
+                                                                        value="#{loginController.rolesUsuario}" />
+							<h:outputText
+								rendered="#{ empty loginController.rolesUsuario }"
+								value="Nota: su usuario no cuenta con roles asignados, por favor comuniquese con el administrador" />
 							</i>
-
 
 							<i class="icon-home gray MarRight10 Fs14 Fright"> <h:outputText
 									value="Oficina: " /> <h:outputText
 									value="Urb. La Perla" />
 							</i>
-							<h:outputText
-                                                            rendered="#{ empty loginFinal.usu.rol }"
-								value="Nota: su usuario no cuenta con roles asignados, por favor comuniquese con el administrador" />
 							<div class="EmptyBox10"></div>
 							<p:separator styleClass="Wid100"></p:separator>
 							<div class="EmptyBox10"></div>
@@ -148,7 +144,7 @@
 									<div class="EmptyBox10"></div>
 									<i class="icon-location-2 gray MarRight10 Fs13 Fright"> <h:outputText
 											value="Ultima Sesion: " /> <h:outputText
-                                                                                        value="#{loginFinal.usu.ultimaSesion}" >
+                                                                                        value="#{loginController.usu.ultimaSesion}" >
                                                                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" type="date" />
                                                                             </h:outputText>
 									</i>
@@ -176,9 +172,5 @@
 		<iframe name="oculto" width="0" height="0">
 			
 		</iframe>
-		SECTION 1 -->
 	</ui:define>
-
-
-
 </ui:composition>

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.produccion.EAO;
+package com.produccion.configuraciones;
 
 import java.io.*;
 import java.security.*;
@@ -75,8 +75,8 @@ public class UtilCryptography
         public static void main(String arg[])
             throws Exception
         {
-        	//System.out.println(encriptar("mpluas"));
-        	System.out.println(desencriptar("mPdzmMZuSuI8SZlzRi4L9w=="));
+        	System.out.println(encriptar("marlon150"));
+        	//System.out.println(desencriptar("mPdzmMZuSuI8SZlzRi4L9w=="));
             
         }
 
