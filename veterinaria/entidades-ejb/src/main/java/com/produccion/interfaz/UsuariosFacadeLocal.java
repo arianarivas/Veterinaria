@@ -33,4 +33,6 @@ public interface UsuariosFacadeLocal {
     Usuarios autenticar(Usuarios usu);
     
     void cabiarClaveUsuario(Usuarios usuario);
+    
+    void registrarSession(Usuarios usuario);
 }

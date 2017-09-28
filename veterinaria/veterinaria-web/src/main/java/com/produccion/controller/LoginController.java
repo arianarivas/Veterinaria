@@ -14,7 +14,10 @@ import com.produccion.seguridad.configuracion.UtilCryptography;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -46,6 +49,8 @@ public class LoginController extends BeanFormulario implements Serializable {
     @PostConstruct
     public void init(){
         usuarios = new Usuarios();
+        SimpleDateFormat simpleFom = new SimpleDateFormat("EEEE, dd-MMMM-yyyy",  new Locale("es", "ES"));
+        fechaActual = simpleFom.format(new Date());
     }
 
     public Usuarios getUsuarios() {
@@ -120,6 +125,7 @@ public class LoginController extends BeanFormulario implements Serializable {
                 setUsuarioSession("Usuarios", usu);
                 System.out.println("******************************** INICIO DE SESION ********************************");
                 System.out.println("Usuario logeado " + usu.getUsername());
+                usuarioEJB.registrarSession(usu);
                 redireccion = "/sistema/principal?faces-redirect=true";
             }else{
                System.out.println("USUARIO/CLAVE Invalidos");
