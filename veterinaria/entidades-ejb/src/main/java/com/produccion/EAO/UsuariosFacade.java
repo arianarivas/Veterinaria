@@ -8,6 +8,10 @@ package com.produccion.EAO;
 import com.produccion.configuraciones.UtilCryptography;
 import com.produccion.interfaz.UsuariosFacadeLocal;
 import com.produccion.entidades.Usuarios;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,14 +40,14 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
     }
     
     @Override
-    public Usuarios autenticar(Usuarios usu){
+    public Usuarios autenticar(String username, String password){
         Usuarios usuarios = null;
         String consulta;
         try {
             consulta = "FROM Usuarios u WHERE u.username = ?1 AND u.password = ?2";
             Query query = em.createQuery(consulta);
-            query.setParameter(1, usu.getUsername());
-            query.setParameter(2, UtilCryptography.encriptar(usu.getPassword()));
+            query.setParameter(1, username);
+            query.setParameter(2, UtilCryptography.encriptar(password));
             List<Usuarios> lista = query.getResultList();
             if (!lista.isEmpty()) {
                 usuarios = lista.get(0);
@@ -67,5 +71,16 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
             query.setParameter(1, usuario.getPassword());
             query.setParameter(2, usuario.getPersonas().getIdpersonas());
             query.executeUpdate();
+    }
+    
+    @Override
+    public void registrarSession(Usuarios usuario){
+        Date date = new Date();
+        DateFormat hourdateFormat  = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("fecha " +hourdateFormat.format(date));
+        String lsQuery = "update usuarios a set a.ultima_sesion = '"+hourdateFormat.format(date)+"' where a.personas_idpersonas = ? ";
+        Query query = em.createNativeQuery(lsQuery);
+        query.setParameter(1, usuario.getId());
+        query.executeUpdate();
     }
 }
