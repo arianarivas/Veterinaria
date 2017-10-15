@@ -120,7 +120,7 @@
                                                                         value="#{loginController.rolesUsuario}" />
 							<h:outputText
 								rendered="#{ empty loginController.rolesUsuario }"
-								value="Nota: su usuario no cuenta con roles asignados, por favor comuniquese con el administrador" />
+								value="Su usuario no cuenta con roles asignados, por favor comuniquese con el administrador" />
 							</i>
 
 							<i class="icon-home gray MarRight10 Fs14 Fright"> <h:outputText
@@ -131,34 +131,28 @@
 							<p:separator styleClass="Wid100"></p:separator>
 							<div class="EmptyBox10"></div>
 							<div align="center">
-								<h:form>
+	
 									<i class="gray MarRight10 Fs14 Fright"> <p:clock
 											pattern="HH:mm:ss">
 										</p:clock>
 									</i>
+                                                                        <div class="EmptyBox10"></div>
 									<i class="icon-calendar-2 gray MarRight10 Fs14 Fright"> <h:outputText
-                                                                                value="#{currentDate}">
-                                                                                <f:convertDateTime pattern="MM/dd/yyyy" type="date" />
+                                                                                value="#{loginController.fechaActual}">
                                                                             </h:outputText>
 									</i>
-									<div class="EmptyBox10"></div>
 									<i class="icon-location-2 gray MarRight10 Fs13 Fright"> <h:outputText
 											value="Ultima Sesion: " /> <h:outputText
                                                                                         value="#{loginController.usu.ultimaSesion}" >
-                                                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" type="date" />
+                                                                                <f:convertDateTime pattern="MM/dd/yyyy h:mm a" timeZone="America/Guayaquil"/>
                                                                             </h:outputText>
 									</i>
 
-								</h:form>
-
 							</div>
-
 						</p:panel>
-
-
 					</div>
-
 				</div>
+
 			</div>
 		</div>
 

@@ -30,7 +30,9 @@ public interface UsuariosFacadeLocal {
 
     int count();
     
-    Usuarios autenticar(Usuarios usu);
+    Usuarios autenticar(String username, String password);
     
     void cabiarClaveUsuario(Usuarios usuario);
+    
+    void registrarSession(Usuarios usuario);
 }

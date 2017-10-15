@@ -5,6 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+
     <h:head>
         <style>
             body {
@@ -148,8 +149,8 @@
                 <p>existencia.</p>
                 <br/>
                 <p:messages globalOnly="false" showDetail="true" id="txtMensaje" />
-                <p:inputText value="#{loginController.usuarios.username}" placeholder="Usuario" onblur="ChangeCase(this);" />
-                <p:password value="#{loginController.usuarios.password}" placeholder="Password" feedback="false" />
+                <p:inputText value="#{loginController.username}" placeholder="Usuario" onblur="ChangeCase(this);" />
+                <p:password value="#{loginController.password}" placeholder="Password" feedback="false" />
                 <p:commandButton value="Ingresar" styleClass="Fs16" action="#{loginController.autenticar}" update="@form"></p:commandButton>
             </div>
         </h:form>
