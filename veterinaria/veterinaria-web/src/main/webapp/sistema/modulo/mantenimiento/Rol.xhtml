@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+            
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <p:panel>
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                            <h:form id="form">
+                                <p:dataTable id="singleDT" var="car" value="#{carsView.cars}"
+                                             emptyMessage="No se encuentran usuarios" reflow="true">
+                                    <f:facet name="header">
+                                        Asignacion de Rol
+                                    </f:facet>
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{car.id}" />
+                                    </p:column>
+                                    <p:column headerText="Usuario">
+                                    </p:column>
+                                    <p:column headerText="Nombres Completos">
+                                    </p:column>
+                                    <p:column headerText="Roles">
+                                        <p:selectCheckboxMenu id="multiple" value="#{rolController.selectedRol}" label="Selecionar Rol" multiple="true"
+                                                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItems value="#{rolController.listaRoles}" 
+                                                           var="rol"
+                                                           itemValue="#{rol}"
+                                                           itemLabel="#{rol.rol}"/>
+                                        </p:selectCheckboxMenu>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                    
+                </p:panel>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

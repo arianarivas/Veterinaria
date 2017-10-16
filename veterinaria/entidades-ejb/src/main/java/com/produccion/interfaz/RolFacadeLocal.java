@@ -30,4 +30,5 @@ public interface RolFacadeLocal {
 
     int count();
     
+    List<Rol> findAllRol();
 }

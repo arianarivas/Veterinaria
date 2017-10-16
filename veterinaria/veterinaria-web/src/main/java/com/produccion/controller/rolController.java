@@ -28,6 +28,7 @@ public class rolController implements Serializable{
     private RolFacadeLocal rolEJB;
     private Rol rol;
     private List<Rol> listaRoles;
+    private String[] selectedRol;
     
     @PostConstruct
     public void init(){
@@ -49,6 +50,14 @@ public class rolController implements Serializable{
 
     public void setListaRoles(List<Rol> listaRoles) {
         this.listaRoles = listaRoles;
+    }
+
+    public String[] getSelectedRol() {
+        return selectedRol;
+    }
+
+    public void setSelectedRol(String[] selectedRol) {
+        this.selectedRol = selectedRol;
     }
     
     void limpiar(){

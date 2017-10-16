@@ -7,9 +7,11 @@ package com.produccion.EAO;
 
 import com.produccion.interfaz.RolFacadeLocal;
 import com.produccion.entidades.Rol;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,6 +30,13 @@ public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal {
 
     public RolFacade() {
         super(Rol.class);
+    }
+    
+    @Override
+    public List<Rol> findAllRol(){
+        Query query = em.createQuery("select t.rol from Rol t");
+        List<Rol> listaRoles = query.getResultList();
+        return query.getResultList();
     }
     
 }
