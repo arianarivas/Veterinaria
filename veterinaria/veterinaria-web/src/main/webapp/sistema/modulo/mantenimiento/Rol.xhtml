@@ -8,30 +8,49 @@
         <div class="Container100">
             <div class="ContainerIndent">
                 <p:panel>
+                    <p:commandButton id="btnNew" immediate="true" icon="icon-github-circled" value="Nuevo Rol">
+                    </p:commandButton>
                     <div class="Container100">
                         <div class="ContainerIndent">
                             <h:form id="form">
-                                <p:dataTable id="singleDT" var="car" value="#{carsView.cars}"
+                                <p:dataTable id="singleDT" var="usuario" value="#{usuarioController.listaUsuarios}"
                                              emptyMessage="No se encuentran usuarios" reflow="true">
                                     <f:facet name="header">
                                         Asignacion de Rol
                                     </f:facet>
+                                    <p:column style="width:50px">
+                                        <p:rowToggler />
+                                    </p:column>
                                     <p:column headerText="Id">
-                                        <h:outputText value="#{car.id}" />
+                                        <h:outputText value="#{usuario.id}" />
                                     </p:column>
                                     <p:column headerText="Usuario">
+                                        <h:outputText value="#{usuario.username}" />
                                     </p:column>
                                     <p:column headerText="Nombres Completos">
+                                        <h:outputText value="#{usuario.nombreCompleto}" />
                                     </p:column>
-                                    <p:column headerText="Roles">
-                                        <p:selectCheckboxMenu id="multiple" value="#{rolController.selectedRol}" label="Selecionar Rol" multiple="true"
+                                    <!--<p:column headerText="Roles">
+                                        <p:selectCheckboxMenu id="multiple" value="#{rolController.rol.menuRoles}" label="Selecionar Rol" multiple="true"
                                                                filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                                            <f:selectItems value="#{rolController.listaRoles}" 
+                                            <f:selectItems value="#{rolController.rol.menuRoles}" 
                                                            var="rol"
                                                            itemValue="#{rol}"
                                                            itemLabel="#{rol.rol}"/>
                                         </p:selectCheckboxMenu>
-                                    </p:column>
+                                    </p:column>!-->
+                                    <p:rowExpansion>                
+                                        <h:outputText value="Cantidad de Roles Asociados: #{usuario.usuariosRoles.size()}" />                    
+                                        <p:dataTable var="roles" value="#{usuarioController.ListaUsuarioRol(usuario.id)}">
+                                            <p:column headerText="Id" style="width: 100px;">
+                                                <h:outputText value="#{roles.rol.idrol}" />
+                                            </p:column>
+
+                                            <p:column headerText="Rol">
+                                                <h:outputText value="#{roles.rol.rol}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:rowExpansion>
                                 </p:dataTable>
                             </h:form>
                         </div>
