@@ -5,6 +5,7 @@
  */
 package com.produccion.interfaz;
 
+import com.produccion.entidades.Usuarios;
 import com.produccion.entidades.UsuariosRol;
 import java.util.List;
 import javax.ejb.Local;
@@ -30,6 +31,6 @@ public interface UsuariosRolFacadeLocal {
 
     int count();
     
-    List<UsuariosRol> findAllRolUsuario(Integer idUsuario);
+    List<UsuariosRol> findAllRolUsuario(Usuarios usuario);
     
 }

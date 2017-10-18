@@ -6,6 +6,7 @@
 package com.produccion.EAO;
 
 import com.produccion.entidades.Rol;
+import com.produccion.entidades.Usuarios;
 import com.produccion.interfaz.UsuariosRolFacadeLocal;
 import com.produccion.entidades.UsuariosRol;
 import java.util.List;
@@ -34,10 +35,22 @@ public class UsuariosRolFacade extends AbstractFacade<UsuariosRol> implements Us
     }
     
     @Override
-    public List<UsuariosRol> findAllRolUsuario(Integer idUsuario){
-        Query query = em.createQuery("select t from UsuariosRol t where t.usuarios = ?1 ");
-        query.setParameter(1, idUsuario);
+    public List<UsuariosRol> findAllRolUsuario(Usuarios usuario){
+        /*Query query = em.createQuery("select t from UsuariosRol t where t.usuarios = ?1 ");
+        query.setParameter(1, idUsuario);*/
+        /*String lsQuery = " from usuarios_rol u " +
+                         " where u.usuarios_idpersonas = ? and u.estado = 'A' ";
+        Query query =  em.createNativeQuery(lsQuery);
+        query.setParameter(1, idUsuario);	
         List<UsuariosRol> listaUsuariosRol = query.getResultList();
+        return query.getResultList();*/
+        Query query = em.createNativeQuery(
+                        "select * from "+
+                                        " usuarios_rol u "+
+                                        " where u.usuarios_idpersonas = ? "+
+                                        " and u.estado = 'A' ", UsuariosRol.class);
+        query.setParameter(1, usuario.getId());
+
         return query.getResultList();
     }
 }

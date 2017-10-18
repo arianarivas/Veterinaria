@@ -12,9 +12,11 @@ import com.produccion.interfaz.RolFacadeLocal;
 import com.produccion.interfaz.UsuariosFacadeLocal;
 import com.produccion.interfaz.UsuariosRolFacadeLocal;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -39,6 +41,7 @@ public class usuarioController implements Serializable{
     public void init(){
         usuarios = new Usuarios();
         listaUsuarios = usuarioEJB.findAll();
+        listaUsuariosRol = new ArrayList<>();
     }
 
     public List<Usuarios> getListaUsuarios() {
@@ -57,12 +60,12 @@ public class usuarioController implements Serializable{
         this.usuarios = usuarios;
     }
     
-    public List<UsuariosRol> ListaUsuarioRol(Integer idUsuario){
-        System.out.println("El id del usuario es " + idUsuario);
-        listaUsuariosRol = usuarioRolEJB.findAllRolUsuario(idUsuario);
+    public List<UsuariosRol> ListaUsuarioRol(Usuarios usuario){
+        System.out.println("El id del usuario es " + usuario.getId());
+        listaUsuariosRol = usuarioRolEJB.findAllRolUsuario(usuario);
         return listaUsuariosRol;
     }
-
+    
     public List<UsuariosRol> getListaUsuariosRol() {
         return listaUsuariosRol;
     }

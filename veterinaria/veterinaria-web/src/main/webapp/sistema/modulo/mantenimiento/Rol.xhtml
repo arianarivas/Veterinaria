@@ -3,7 +3,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
-            
+<ui:define name="head">
+<style type="text/css">
+.old {
+	background-color: lightgrey !important;
+	background-image: none !important;
+	color: white !important;
+}
+</style>
+</ui:define>        
     <ui:define name="content">
         <div class="Container100">
             <div class="ContainerIndent">
@@ -13,8 +21,15 @@
                     <div class="Container100">
                         <div class="ContainerIndent">
                             <h:form id="form">
-                                <p:dataTable id="singleDT" var="usuario" value="#{usuarioController.listaUsuarios}"
-                                             emptyMessage="No se encuentran usuarios" reflow="true">
+                                <p:dataTable id="singleDT" 
+                                             var="usuario" 
+                                             value="#{usuarioController.listaUsuarios}"
+                                             emptyMessage="No se encuentran usuarios" 
+                                             reflow="true"
+                                             paginator="true"
+                                             rows="10"
+                                             rowsPerPageTemplate="10,15,25"
+                                             rowStyleClass="#{usuario.estado eq 'A'? 'I' :'old' }">
                                     <f:facet name="header">
                                         Asignacion de Rol
                                     </f:facet>
@@ -30,6 +45,9 @@
                                     <p:column headerText="Nombres Completos">
                                         <h:outputText value="#{usuario.nombreCompleto}" />
                                     </p:column>
+                                    <p:column headerText="Estado">
+                                        <h:outputText value="#{usuario.estado}" />
+                                    </p:column>
                                     <!--<p:column headerText="Roles">
                                         <p:selectCheckboxMenu id="multiple" value="#{rolController.rol.menuRoles}" label="Selecionar Rol" multiple="true"
                                                                filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
@@ -39,13 +57,20 @@
                                                            itemLabel="#{rol.rol}"/>
                                         </p:selectCheckboxMenu>
                                     </p:column>!-->
+                                    <p:column headerText="Acciones">
+                                        <p:commandButton icon="ui-icon-gear" title="Modificar">
+                                            
+                                        </p:commandButton>
+                                        <p:commandButton icon="ui-icon-closethick" title="Eliminar">
+                                            
+                                        </p:commandButton>
+                                    </p:column>
                                     <p:rowExpansion>                
                                         <h:outputText value="Cantidad de Roles Asociados: #{usuario.usuariosRoles.size()}" />                    
-                                        <p:dataTable var="roles" value="#{usuarioController.ListaUsuarioRol(usuario.id)}">
+                                        <p:dataTable var="roles" value="#{usuarioController.ListaUsuarioRol(usuario)}">
                                             <p:column headerText="Id" style="width: 100px;">
                                                 <h:outputText value="#{roles.rol.idrol}" />
                                             </p:column>
-
                                             <p:column headerText="Rol">
                                                 <h:outputText value="#{roles.rol.rol}" />
                                             </p:column>
