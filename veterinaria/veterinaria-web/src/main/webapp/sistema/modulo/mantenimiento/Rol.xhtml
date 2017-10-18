@@ -46,22 +46,19 @@
                                         <h:outputText value="#{usuario.nombreCompleto}" />
                                     </p:column>
                                     <p:column headerText="Estado">
-                                        <h:outputText value="#{usuario.estado}" />
+                                        <h:outputText value="#{usuarioController.estado(usuario)}" />
                                     </p:column>
-                                    <!--<p:column headerText="Roles">
-                                        <p:selectCheckboxMenu id="multiple" value="#{rolController.rol.menuRoles}" label="Selecionar Rol" multiple="true"
+                                    <p:column headerText="Roles">
+                                        <p:selectCheckboxMenu id="multiple" value="#{usuarioController.usuariosRol}" label="Selecionar Rol" multiple="true"
                                                                filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                                            <f:selectItems value="#{rolController.rol.menuRoles}" 
+                                            <f:selectItems value="#{rolController.listaRoles}" 
                                                            var="rol"
                                                            itemValue="#{rol}"
                                                            itemLabel="#{rol.rol}"/>
                                         </p:selectCheckboxMenu>
-                                    </p:column>!-->
-                                    <p:column headerText="Acciones">
-                                        <p:commandButton icon="ui-icon-gear" title="Modificar">
-                                            
-                                        </p:commandButton>
-                                        <p:commandButton icon="ui-icon-closethick" title="Eliminar">
+                                    </p:column>
+                                    <p:column headerText="Acciones" style="width: 100px;">
+                                        <p:commandButton icon="ui-icon-gear" title="Modificar" rendered="#{usuario.estado eq 'A'}">
                                             
                                         </p:commandButton>
                                     </p:column>

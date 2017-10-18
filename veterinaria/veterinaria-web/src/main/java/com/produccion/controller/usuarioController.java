@@ -35,6 +35,7 @@ public class usuarioController implements Serializable{
     private List<Usuarios> listaUsuarios;
     private List<UsuariosRol> listaUsuariosRol;
     private Usuarios usuarios;
+    private UsuariosRol usuariosRol;
     
     
     @PostConstruct
@@ -46,6 +47,14 @@ public class usuarioController implements Serializable{
 
     public List<Usuarios> getListaUsuarios() {
         return listaUsuarios;
+    }
+
+    public UsuariosRol getUsuariosRol() {
+        return usuariosRol;
+    }
+
+    public void setUsuariosRol(UsuariosRol usuariosRol) {
+        this.usuariosRol = usuariosRol;
     }
 
     public void setListaUsuarios(List<Usuarios> listaUsuarios) {
@@ -61,7 +70,6 @@ public class usuarioController implements Serializable{
     }
     
     public List<UsuariosRol> ListaUsuarioRol(Usuarios usuario){
-        System.out.println("El id del usuario es " + usuario.getId());
         listaUsuariosRol = usuarioRolEJB.findAllRolUsuario(usuario);
         return listaUsuariosRol;
     }
@@ -74,5 +82,13 @@ public class usuarioController implements Serializable{
         this.listaUsuariosRol = listaUsuariosRol;
     }
     
-    
+    public String estado(Usuarios usuario){
+        String estado = "";
+        if (usuario.getEstado().equals("A")) {
+            estado = "Activo";
+        }else{
+            estado = "Inactivo";
+        }
+        return estado;
+    }
 }
