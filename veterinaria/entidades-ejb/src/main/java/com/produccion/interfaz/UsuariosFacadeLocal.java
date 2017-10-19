@@ -35,4 +35,6 @@ public interface UsuariosFacadeLocal {
     void cabiarClaveUsuario(Usuarios usuario);
     
     void registrarSession(Usuarios usuario);
+    
+    List<Usuarios> findAllRolUsuario(Integer usuario);
 }

@@ -13,6 +13,7 @@
 </style>
 </ui:define>        
     <ui:define name="content">
+      <h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
         <div class="Container100">
             <div class="ContainerIndent">
                 <p:panel>
@@ -21,64 +22,31 @@
                     <div class="Container100">
                         <div class="ContainerIndent">
                             <h:form id="form">
-                                <p:dataTable id="singleDT" 
-                                             var="usuario" 
-                                             value="#{usuarioController.listaUsuarios}"
-                                             emptyMessage="No se encuentran usuarios" 
-                                             reflow="true"
-                                             paginator="true"
-                                             rows="10"
-                                             rowsPerPageTemplate="10,15,25"
-                                             rowStyleClass="#{usuario.estado eq 'A'? 'I' :'old' }">
-                                    <f:facet name="header">
-                                        Asignacion de Rol
-                                    </f:facet>
-                                    <p:column style="width:50px">
-                                        <p:rowToggler />
-                                    </p:column>
-                                    <p:column headerText="Id">
-                                        <h:outputText value="#{usuario.id}" />
-                                    </p:column>
-                                    <p:column headerText="Usuario">
-                                        <h:outputText value="#{usuario.username}" />
-                                    </p:column>
-                                    <p:column headerText="Nombres Completos">
-                                        <h:outputText value="#{usuario.nombreCompleto}" />
-                                    </p:column>
-                                    <p:column headerText="Estado">
-                                        <h:outputText value="#{usuarioController.estado(usuario)}" />
-                                    </p:column>
-                                    <p:column headerText="Roles">
-                                        <p:selectCheckboxMenu id="multiple" value="#{usuarioController.usuariosRol}" label="Selecionar Rol" multiple="true"
-                                                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                                            <f:selectItems value="#{rolController.listaRoles}" 
-                                                           var="rol"
-                                                           itemValue="#{rol}"
-                                                           itemLabel="#{rol.rol}"/>
-                                        </p:selectCheckboxMenu>
-                                    </p:column>
-                                    <p:column headerText="Acciones" style="width: 100px;">
-                                        <p:commandButton icon="ui-icon-gear" title="Modificar" rendered="#{usuario.estado eq 'A'}">
-                                            
-                                        </p:commandButton>
-                                    </p:column>
-                                    <p:rowExpansion>                
-                                        <h:outputText value="Cantidad de Roles Asociados: #{usuario.usuariosRoles.size()}" />                    
-                                        <p:dataTable var="roles" value="#{usuarioController.ListaUsuarioRol(usuario)}">
-                                            <p:column headerText="Id" style="width: 100px;">
-                                                <h:outputText value="#{roles.rol.idrol}" />
-                                            </p:column>
-                                            <p:column headerText="Rol">
-                                                <h:outputText value="#{roles.rol.rol}" />
-                                            </p:column>
-                                        </p:dataTable>
-                                    </p:rowExpansion>
-                                </p:dataTable>
+
+                
+                <p:growl id="msjOpcRol" showDetail="true" showSummary="true" sticky="true" />
+  	  	    <p:panel id="pRegOpcRol" header="Asignacion de Rol a Usuario">
+                        <p:dataTable stickyHeader="true" id="datOpcRol" var="opcAsig" value="#{usuarioController.listaUsuarios}" rowIndexVar="indexRow">
+	  	  	    	<p:column headerText="USUARIO / ROLES">
+                                    <h:outputText value="#{opcAsig.username}"/>	  	  	    		
+			        </p:column>	  	  	    	
+                            <p:columns var="rolAct" value="#{usuarioController.listaRoles}" columnIndexVar="indexCol">
+		            	<f:facet name="header"  >
+				            <h:outputText id="descRol" value="#{rolAct.rol}"   /> 
+				            <p:tooltip for="descRol" value="#{rolAct.rol}" showEffect="clip" hideEffect="explode" />
+				        </f:facet>
+                                <p:selectBooleanCheckbox id="checkOp" value="#{usuarioController.opcionesAsignadas[indexCol][indexRow]}">
+                                    <p:ajax update=":#{p:component('msjOpcRol')}" process=":#{p:component('pRegOpcRol')}" partialSubmit="true" listener="#{usuarioController.ingresoActualizarOpcionesRoles(rolAct.idrol,opcAsig.id)}" />	
+			        	</p:selectBooleanCheckbox>
+		        	</p:columns> 	    	
+	        				    	    	
+	        	</p:dataTable>
+	        </p:panel>
+                              
                             </h:form>
                         </div>
                     </div>
-                    
-                </p:panel>
+                </p:panel>	  
             </div>
         </div>
     </ui:define>

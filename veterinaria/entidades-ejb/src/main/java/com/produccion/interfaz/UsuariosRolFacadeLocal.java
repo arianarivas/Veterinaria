@@ -31,6 +31,10 @@ public interface UsuariosRolFacadeLocal {
 
     int count();
     
-    List<UsuariosRol> findAllRolUsuario(Usuarios usuario);
+    List<UsuariosRol> findAllRolUsuarios(Usuarios usuario);
+    
+    UsuariosRol obtenerUsuarioRol(Integer idUsuario, Integer idRol);
+    
+    void actualizarUsuarioRol(String estado, Integer idOpRol);
     
 }
