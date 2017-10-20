@@ -13,7 +13,6 @@ import com.produccion.interfaz.UsuariosFacadeLocal;
 import com.produccion.interfaz.UsuariosRolFacadeLocal;
 import com.produccion.seguridad.configuracion.BeanFormulario;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -23,101 +22,37 @@ import javax.inject.Named;
 
 /**
  *
- * @author mpluas
+ * @author mplua
  */
 @Named
 @ViewScoped
-public class usuarioController extends BeanFormulario implements Serializable{
+public class usuarioRolController extends BeanFormulario implements Serializable{
     
     @EJB
     private UsuariosFacadeLocal usuarioEJB;
     @EJB
-    private UsuariosRolFacadeLocal usuarioRolEJB;
-    @EJB
     private RolFacadeLocal rolEJB;
-    private List<Usuarios> listaUsuarios;
+    @EJB
+    private UsuariosRolFacadeLocal usuarioRolEJB;
     private List<Usuarios> listaUsuariosActivos;
-    private List<Rol> listaRoles;
     private List<Rol> listaRolesActivos;
-    private List<UsuariosRol> listaUsuariosRol;
-    private Usuarios usuarios;
-    private UsuariosRol usuariosRol;
     private Boolean[][] opcionesAsignadas;
+    private Rol nuevoRol;
+    private List<Rol> listaRoles;
+    private boolean presentarBotonActvivarRol;
     
     @PostConstruct
     public void init(){
         inicilizacion();
     }
+    
     private void inicilizacion(){
-            listaUsuarios = usuarioEJB.findAll();
-            listaUsuariosActivos = usuarioEJB.findAllActivos();
-            listaRoles = rolEJB.findAll();
-            listaRolesActivos = rolEJB.findAllActivos();
-            listaUsuariosRol = new ArrayList<>();
-            usuarios = new Usuarios();
-
-    }
-    public List<Usuarios> getListaUsuarios() {
-        return listaUsuarios;
-    }
-
-    public List<Rol> getListaRoles() {
-        return listaRoles;
-    }
-
-    public void setListaRoles(List<Rol> listaRoles) {
-        this.listaRoles = listaRoles;
-    }
-
-    public UsuariosRol getUsuariosRol() {
-        return usuariosRol;
-    }
-
-    public void setUsuariosRol(UsuariosRol usuariosRol) {
-        this.usuariosRol = usuariosRol;
-    }
-
-    public void setListaUsuarios(List<Usuarios> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
-    }
-
-    public Usuarios getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(Usuarios usuarios) {
-        this.usuarios = usuarios;
-    }
-    
-    public List<UsuariosRol> ListaUsuarioRol(Usuarios usuario){
-        listaUsuariosRol = usuarioRolEJB.findAllRolUsuarios(usuario);
-        return listaUsuariosRol;
-    }
-    
-    public List<UsuariosRol> getListaUsuariosRol() {
-        return listaUsuariosRol;
-    }
-
-    public void setListaUsuariosRol(List<UsuariosRol> listaUsuariosRol) {
-        this.listaUsuariosRol = listaUsuariosRol;
-    }
-    
-    public String estado(Usuarios usuario){
-        String estado = "";
-        if (usuario.getEstado().equals("A")) {
-            estado = "Activo";
-        }else{
-            estado = "Inactivo";
-        }
-        return estado;
-    }
-   
-    public Boolean[][] getOpcionesAsignadas() {
-        return opcionesAsignadas;
-    }
-
-    public void setOpcionesAsignadas(Boolean[][] opcionesAsignadas) {
-        this.opcionesAsignadas = opcionesAsignadas;
+        listaUsuariosActivos = usuarioEJB.findAllActivos();
+        listaRolesActivos = rolEJB.findAllActivos();
+        opcionesAsignadas();
+        listaRoles = rolEJB.findAll();
+        nuevoRol = new Rol();
+        presentarBotonActvivarRol=false;
     }
 
     public List<Usuarios> getListaUsuariosActivos() {
@@ -136,6 +71,30 @@ public class usuarioController extends BeanFormulario implements Serializable{
         this.listaRolesActivos = listaRolesActivos;
     }
 
+    public boolean isPresentarBotonActvivarRol() {
+        return presentarBotonActvivarRol;
+    }
+
+    public List<Rol> getListaRoles() {
+        return listaRoles;
+    }
+
+    public void setListaRoles(List<Rol> listaRoles) {
+        this.listaRoles = listaRoles;
+    }
+
+    public void setPresentarBotonActvivarRol(boolean presentarBotonActvivarRol) {
+        this.presentarBotonActvivarRol = presentarBotonActvivarRol;
+    }
+
+    public Boolean[][] getOpcionesAsignadas() {
+        return opcionesAsignadas;
+    }
+
+    public void setOpcionesAsignadas(Boolean[][] opcionesAsignadas) {
+        this.opcionesAsignadas = opcionesAsignadas;
+    }
+    
     public void opcionesAsignadas(){
             int cont=0, iRol=0, iOpc=0;
             opcionesAsignadas = new Boolean[listaRolesActivos.size()][listaUsuariosActivos.size()];
@@ -187,6 +146,28 @@ public class usuarioController extends BeanFormulario implements Serializable{
             addMensaje("Transacción realizada con éxito");
             }
     }
-}
-    
 
+    public Rol getNuevoRol() {
+        return nuevoRol;
+    }
+
+    public void setNuevoRol(Rol nuevoRol) {
+        this.nuevoRol = nuevoRol;
+    }
+    
+    public void guardarRolNuevo(){
+            nuevoRol.setRol(nuevoRol.getRol());
+            nuevoRol.setEstado("A");
+            nuevoRol.setObservacion("Creado en Sistema");
+            nuevoRol.setFechaRegistro(new Date());
+            rolEJB.create(nuevoRol);
+            inicilizacion();
+    }
+    
+    public void activarInactivarRol(Rol rol){
+            rol.setEstado(rol.getEstado().equals("A")?"I":"A");
+            rol.setFechaActualizacion(new Date());
+            rolEJB.edit(rol);
+            inicilizacion();
+    }
+}

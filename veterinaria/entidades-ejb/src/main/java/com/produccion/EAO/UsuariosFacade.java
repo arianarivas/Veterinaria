@@ -86,33 +86,23 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
     }
     
     @Override
+    public List<Usuarios> findAllActivos(){
+        Query query = em.createNativeQuery(
+                        "select * from usuarios "+
+                         "where estado = 'A' ", Usuarios.class);
+        return query.getResultList();
+    }
+    
+    @Override
     public List<Usuarios> findAllRolUsuario(Integer usuario){
-        /*Query query = em.createQuery("select t from UsuariosRol t where t.usuarios = ?1 ");
-        query.setParameter(1, idUsuario);*/
-        /*String lsQuery = " from usuarios_rol u " +
-                         " where u.usuarios_idpersonas = ? and u.estado = 'A' ";
-        Query query =  em.createNativeQuery(lsQuery);
-        query.setParameter(1, idUsuario);	
-        List<UsuariosRol> listaUsuariosRol = query.getResultList();
-        return query.getResultList();*/
         System.out.println("el rol es " + usuario);
         Query query = em.createNativeQuery(
                         "select usu.* from usuarios_rol u "+
                          " inner join usuarios usu on u.usuarios_idpersonas = usu.personas_idpersonas  "+
                          " where u.rol_idrol = ? "+
-                         " and u.estado = 'A' ", Usuarios.class);
+                         " and u.estado = 'A' and usu.estado = 'A'", Usuarios.class);
         query.setParameter(1, usuario);
 
         return query.getResultList();
     }
-//    public List<Usuarios> listaOpcionesAsignada(String rol) {
-//            Query query = getEntityManager()
-//                            .createNativeQuery(
-//                                            " select op.* from cls_opciones_roles opr, cls_opciones op, cls_rol r "
-//                                                            + " where opr.id_opcion = op.id and opr.id_rol = r.id "
-//                                                            + " and op.Modulo_Padre is not null and upper(r.rol) = upper(?) and opr.estado='A' ",
-//                                                            Usuarios.class);
-//            query.setParameter(1, rol);
-//            return query.getResultList();
-//    }
 }

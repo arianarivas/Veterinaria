@@ -37,4 +37,6 @@ public interface UsuariosFacadeLocal {
     void registrarSession(Usuarios usuario);
     
     List<Usuarios> findAllRolUsuario(Integer usuario);
+    
+    List<Usuarios> findAllActivos();
 }
