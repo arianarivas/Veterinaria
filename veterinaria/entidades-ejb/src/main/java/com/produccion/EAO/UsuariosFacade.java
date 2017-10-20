@@ -8,6 +8,7 @@ package com.produccion.EAO;
 import com.produccion.configuraciones.UtilCryptography;
 import com.produccion.interfaz.UsuariosFacadeLocal;
 import com.produccion.entidades.Usuarios;
+import com.produccion.entidades.UsuariosRol;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -82,5 +83,26 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
         Query query = em.createNativeQuery(lsQuery);
         query.setParameter(1, usuario.getId());
         query.executeUpdate();
+    }
+    
+    @Override
+    public List<Usuarios> findAllActivos(){
+        Query query = em.createNativeQuery(
+                        "select * from usuarios "+
+                         "where estado = 'A' ", Usuarios.class);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<Usuarios> findAllRolUsuario(Integer usuario){
+        System.out.println("el rol es " + usuario);
+        Query query = em.createNativeQuery(
+                        "select usu.* from usuarios_rol u "+
+                         " inner join usuarios usu on u.usuarios_idpersonas = usu.personas_idpersonas  "+
+                         " where u.rol_idrol = ? "+
+                         " and u.estado = 'A' and usu.estado = 'A'", Usuarios.class);
+        query.setParameter(1, usuario);
+
+        return query.getResultList();
     }
 }

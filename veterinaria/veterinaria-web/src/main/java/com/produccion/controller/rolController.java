@@ -28,15 +28,29 @@ public class rolController implements Serializable{
     private RolFacadeLocal rolEJB;
     private Rol rol;
     private List<Rol> listaRoles;
+    private String[] selectedRol;
+    private Rol nuevoRol;
     
     @PostConstruct
     public void init(){
+        inicilizacion();
+    }
+    
+    private void inicilizacion(){
         rol = new Rol();
         listaRoles = rolEJB.findAll();
+        nuevoRol = new Rol();
     }
-
     public Rol getRol() {
         return rol;
+    }
+
+    public Rol getNuevoRol() {
+        return nuevoRol;
+    }
+
+    public void setNuevoRol(Rol nuevoRol) {
+        this.nuevoRol = nuevoRol;
     }
 
     public void setRol(Rol rol) {
@@ -50,6 +64,14 @@ public class rolController implements Serializable{
     public void setListaRoles(List<Rol> listaRoles) {
         this.listaRoles = listaRoles;
     }
+
+    public String[] getSelectedRol() {
+        return selectedRol;
+    }
+
+    public void setSelectedRol(String[] selectedRol) {
+        this.selectedRol = selectedRol;
+    }
     
     void limpiar(){
        rol = new Rol(); 
@@ -62,5 +84,13 @@ public class rolController implements Serializable{
             limpiar();
         } catch (Exception e) {
         }
+    }
+    
+    public void guardarRolNuevo(){
+            nuevoRol.setRol(nuevoRol.getRol().toUpperCase());
+            nuevoRol.setEstado("A");
+            nuevoRol.setFechaRegistro(new Date());
+            rolEJB.create(nuevoRol);
+            inicilizacion();
     }
 }

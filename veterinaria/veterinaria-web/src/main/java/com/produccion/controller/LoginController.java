@@ -147,7 +147,7 @@ public class LoginController extends BeanFormulario implements Serializable {
                 System.out.println("******************************** INICIO DE SESION ********************************");
                 System.out.println("Usuario logeado " + usu.getUsername());
                 usuarioEJB.registrarSession(usu);
-                redireccion = "/sistema/principal?faces-redirect=true";
+                redireccion = "/sistema/principal.jsf?faces-redirect=true";
             }else{
                System.out.println("USUARIO/CLAVE Invalidos");
                addError("Error", "USUARIO/CLAVE Invalidos");

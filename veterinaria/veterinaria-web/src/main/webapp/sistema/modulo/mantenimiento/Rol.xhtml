@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+<ui:define name="head">
+<style type="text/css">
+.old {
+	background-color: lightgrey !important;
+	background-image: none !important;
+	color: white !important;
+}
+</style>
+</ui:define>        
+    <ui:define name="content">
+      <h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <p:panel>
+                    <p:commandButton id="btnNew" immediate="true" icon="icon-github-circled" value="Nuevo Rol" oncomplete="PF('dlgRoles').show()">
+                    </p:commandButton>
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                            <h:form id="frmOpcionesRoles" >
+                                <p:growl id="msjUsuRol" showDetail="true" showSummary="true" sticky="true" />
+                                <p:panel id="pUsuRol" header="Asignacion de Rol a Usuario">
+                                    <p:dataTable stickyHeader="true" id="datOpcRol" var="usuarioAsig" 
+                                                 value="#{usuarioRolController.listaUsuariosActivos}" rowIndexVar="indexRow">
+                                        <p:column headerText="USUARIO / ROLES">
+                                            <h:outputText value="#{usuarioAsig.username}"/>
+                                        </p:column>
+                                        <p:columns var="rolAsig" value="#{usuarioRolController.listaRolesActivos}" columnIndexVar="indexCol">
+                                            <f:facet name="header">
+                                                <h:outputText id="descRol" value="#{rolAsig.rol}"/>
+                                                <p:tooltip for="descRol" value="#{rolAsig.rol}" showEffect="clip" hideEffect="explode" />
+                                            </f:facet>
+                                            <p:selectBooleanCheckbox id="checkOp" value="#{usuarioRolController.opcionesAsignadas[indexCol][indexRow]}">
+                                            <p:ajax update=":#{p:component('msjUsuRol')}" process=":#{p:component('pUsuRol')}" partialSubmit="true" 
+                                                    listener="#{usuarioRolController.ingresoActualizarOpcionesRoles(rolAsig.idrol,usuarioAsig.id)}" />
+                                            </p:selectBooleanCheckbox>
+                                        </p:columns>
+                                    </p:dataTable>
+                                </p:panel>
+                                
+                                
+                                <p:dialog header="Agregar Roles" widgetVar="dlgRoles" appendTo="@(body)" modal="true" id="dlgRoles">
+		        <p:messages id="mensajesRol" showDetail="false" autoUpdate="true"></p:messages>
+		        <p:panelGrid columns="2"  styleClass="companyHeaderGrid" >
+		        	<h:panelGroup style="vertical-align:top;">
+		        		<p:panelGrid columns="1"  styleClass="companyHeaderGrid">
+		        			<h:panelGroup>
+			        			<h:outputText value="Rol" />
+			        			<p:spacer width="5" height="2" />
+			        			<p:inputText id="idRolDes" 
+                                                                     value="#{usuarioRolController.nuevoRol.rol}" 
+			        				required="true"
+									onchange="validarOnChange(this,'letras','dlgCharEspecPage')"
+									onkeypress="return validarKeyPress(event,'letras')"
+			        				requiredMessage="El Campo Rol no esta lleno">
+			        			</p:inputText>
+		        			</h:panelGroup>
+                                            <h:panelGroup style="display:block; text-align:center">
+                                             <p:commandButton value="Crear Rol" actionListener="#{usuarioRolController.guardarRolNuevo}" partialSubmit="true" process="@this :#{p:component('idRolDes')}"
+		        			update=":#{p:component('idTableRol')} :#{p:component('datOpcRol')} :#{p:component('idRolDes')} :#{p:component('mensajesRol')}" icon="ui-icon-disk"/>                                               
+                                            </h:panelGroup>
+		        		</p:panelGrid>
+		        	</h:panelGroup>
+                            <p:dataTable id="idTableRol" value="#{usuarioRolController.listaRoles}" var="rol" style="width: 370px;">
+			        	<p:column headerText="ROL" style="text-align:center;" >
+			  	  	    		<h:outputText value="#{rol.rol}" />	  	  	    		
+					    </p:column>
+					    <p:column headerText="ESTADO" style="text-align:center;">
+			  	  	    		<h:outputText value="#{rol.estado.equals('A')?'ACTIVO':'INACTIVO'}" />	  	  	    		
+					    </p:column>
+					    <p:column headerText="ACCIÓN" style="text-align:center;">
+			  	  	    	<p:commandButton value="ACTIVAR" actionListener="#{usuarioRolController.activarInactivarRol(rol)}" partialSubmit="true" 
+			  	  	    	process="@this" update=":#{p:component('idTableRol')} :#{p:component('datOpcRol')}" 
+                                                rendered="#{rol.estado.equals('A') ? usuarioRolController.presentarBotonActvivarRol : !usuarioRolController.presentarBotonActvivarRol}"></p:commandButton>
+			  	  	    	
+			  	  	    	<p:commandButton value="INACTIVAR" actionListener="#{usuarioRolController.activarInactivarRol(rol)}" partialSubmit="true" 
+			  	  	    	process="@this" update=":#{p:component('idTableRol')} :#{p:component('datOpcRol')}" 
+                                                rendered="#{rol.estado.equals('A') ? !usuarioRolController.presentarBotonActvivarRol : usuarioRolController.presentarBotonActvivarRol}"></p:commandButton>	  	  	    		
+					    </p:column>	  	  
+			        </p:dataTable>
+		        </p:panelGrid>       
+		    </p:dialog>   
+                            </h:form>
+                        </div>
+                    </div>
+                </p:panel>	  
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

@@ -48,6 +48,9 @@ public class Rol implements Serializable{
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
+    @Column(name = "fecha_actualizacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaActualizacion;
     @Size(max = 2)
     @Column(name = "estado")
     private String estado;
@@ -76,13 +79,12 @@ public class Rol implements Serializable{
         this.menuRoles = new ArrayList<>();
     }
 
-    public Rol(String rol, String observacion, Date fechaRegistro, String estado) {
+    public Rol(String rol, String observacion, Date fechaRegistro, String estado, Date fechaActualizacion) {
         this.rol = rol;
         this.observacion = observacion;
         this.fechaRegistro = fechaRegistro;
+        this.fechaActualizacion = fechaActualizacion;
         this.estado = estado;
-        //this.menuList = new ArrayList<>();
-        //this.usuariosList = new ArrayList<>();
         this.usuariosRoles = new ArrayList<>();
         this.menuRoles = new ArrayList<>();
     }
@@ -135,10 +137,14 @@ public class Rol implements Serializable{
         this.menuRoles = menuRoles;
     }
 
-//    public List<Menu> getMenuList() {
-//        return menuList;
-//    }
+    public Date getFechaActualizacion() {
+        return fechaActualizacion;
+    }
 
+    public void setFechaActualizacion(Date fechaActualizacion) {
+        this.fechaActualizacion = fechaActualizacion;
+    }
+    
     public List<UsuariosRol> getUsuariosRoles() {
         return usuariosRoles;
     }
