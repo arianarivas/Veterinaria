@@ -30,7 +30,15 @@ public interface MenuFacadeLocal {
     List<Menu> findRange(int[] range);
 
     int count();
-    
+
     boolean permitirAccesoOpcion(Menu opcion, Usuarios usuario);
-    
+
+    List<Menu> findAllActivos();
+
+    List<Menu> findAllMenuRol(Integer menu);
+
+    List<Menu> findAllMenuPadre();
+
+    Menu buscaMenuCodigo(Integer codmenu);
+
 }
